@@ -28,7 +28,7 @@ def home():
 def admin_login(ip):
     global admins
     global clients
-    if (ip in clients):
+    if (ip in admins and ip != "default"):
         return "fail\n" + str(clients) + "\n" + str(admins)
     else:
         admins.append(ip)
@@ -56,7 +56,7 @@ def admin_logout(ip):
 @app.route('/client/<ip>')
 def client_login(ip):
     global clients
-    if (ip in clients):
+    if (ip in clients and ip != "default"):
         return "fail"
     else:
         clients.append(ip)  
@@ -68,7 +68,7 @@ def client_login(ip):
 @app.route('/client/<ip>/disconnect')
 def client_logout(ip):
     global clients
-    if (ip in clients):
+    if (ip in clients and ip != "default"):
         clients.remove(ip)
         clients = removeDupes(clients)
         with open("/home/Ee0Rk/mysite/clients.txt", "w") as file:
