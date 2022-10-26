@@ -6,6 +6,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rascal_controller", "rascal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rascal_client", "rascal_client\rascal_client.csproj", "{18383199-A52F-4ED5-AEC5-80B2911AF2F4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{072A9DC8-BFEC-4556-B55B-DB35E3242062}"
+	ProjectSection(SolutionItems) = preProject
+		server.py = server.py
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

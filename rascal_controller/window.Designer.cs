@@ -32,6 +32,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(window));
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.databaseTabPage1 = new System.Windows.Forms.TabPage();
+            this.communicationsGroupBox1 = new System.Windows.Forms.GroupBox();
+            this.communicationsText_rtxt1 = new System.Windows.Forms.RichTextBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.clearComLog_btn1 = new System.Windows.Forms.ToolStripButton();
             this.serverGroupBox1 = new System.Windows.Forms.GroupBox();
             this.pingLog_rtxt1 = new System.Windows.Forms.RichTextBox();
             this.splitter2 = new System.Windows.Forms.Splitter();
@@ -66,6 +70,8 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.mainTabControl.SuspendLayout();
             this.databaseTabPage1.SuspendLayout();
+            this.communicationsGroupBox1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.serverGroupBox1.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             this.clientsGroupBox1.SuspendLayout();
@@ -87,6 +93,7 @@
             // 
             // databaseTabPage1
             // 
+            this.databaseTabPage1.Controls.Add(this.communicationsGroupBox1);
             this.databaseTabPage1.Controls.Add(this.serverGroupBox1);
             this.databaseTabPage1.Controls.Add(this.clientsGroupBox1);
             this.databaseTabPage1.Controls.Add(this.adminsGroupBox1);
@@ -97,6 +104,49 @@
             this.databaseTabPage1.TabIndex = 0;
             this.databaseTabPage1.Text = "Database";
             this.databaseTabPage1.UseVisualStyleBackColor = true;
+            // 
+            // communicationsGroupBox1
+            // 
+            this.communicationsGroupBox1.Controls.Add(this.communicationsText_rtxt1);
+            this.communicationsGroupBox1.Controls.Add(this.toolStrip1);
+            this.communicationsGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.communicationsGroupBox1.Location = new System.Drawing.Point(603, 3);
+            this.communicationsGroupBox1.Name = "communicationsGroupBox1";
+            this.communicationsGroupBox1.Size = new System.Drawing.Size(186, 418);
+            this.communicationsGroupBox1.TabIndex = 3;
+            this.communicationsGroupBox1.TabStop = false;
+            this.communicationsGroupBox1.Text = "Communications";
+            // 
+            // communicationsText_rtxt1
+            // 
+            this.communicationsText_rtxt1.DetectUrls = false;
+            this.communicationsText_rtxt1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.communicationsText_rtxt1.Location = new System.Drawing.Point(3, 41);
+            this.communicationsText_rtxt1.Name = "communicationsText_rtxt1";
+            this.communicationsText_rtxt1.ReadOnly = true;
+            this.communicationsText_rtxt1.Size = new System.Drawing.Size(180, 374);
+            this.communicationsText_rtxt1.TabIndex = 2;
+            this.communicationsText_rtxt1.Text = "";
+            this.communicationsText_rtxt1.WordWrap = false;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearComLog_btn1});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(180, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // clearComLog_btn1
+            // 
+            this.clearComLog_btn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.clearComLog_btn1.Image = ((System.Drawing.Image)(resources.GetObject("clearComLog_btn1.Image")));
+            this.clearComLog_btn1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.clearComLog_btn1.Name = "clearComLog_btn1";
+            this.clearComLog_btn1.Size = new System.Drawing.Size(58, 22);
+            this.clearComLog_btn1.Text = "Clear log";
             // 
             // serverGroupBox1
             // 
@@ -428,6 +478,10 @@
             this.Load += new System.EventHandler(this.window_Load);
             this.mainTabControl.ResumeLayout(false);
             this.databaseTabPage1.ResumeLayout(false);
+            this.communicationsGroupBox1.ResumeLayout(false);
+            this.communicationsGroupBox1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.serverGroupBox1.ResumeLayout(false);
             this.serverGroupBox1.PerformLayout();
             this.toolStrip3.ResumeLayout(false);
@@ -480,6 +534,10 @@
         private System.Windows.Forms.RichTextBox pingLog_rtxt1;
         private System.Windows.Forms.ToolStripButton clientsEdit_btn1;
         private System.Windows.Forms.ToolStripButton adminsEdit_btn1;
+        private System.Windows.Forms.GroupBox communicationsGroupBox1;
+        private System.Windows.Forms.RichTextBox communicationsText_rtxt1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton clearComLog_btn1;
     }
 }
 

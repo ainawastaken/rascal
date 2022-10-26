@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="util\rendeServerResponseTemplate.cs" />
     <Compile Include="window.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="resource\" />
-    <Folder Include="util\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\relo.bmp" />
