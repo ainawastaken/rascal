@@ -1,41 +1,126 @@
+﻿from msilib.schema import File
 from time import sleep
+from venv import create;
 from flask import Flask;
-import json;
 from multiprocessing import Process;
+import os;
+import subprocess;
+import platform;
+
+#next kind: ¶ U+00B6
+#next value: ► U+25BC
+#next list: ▼ U+25BA
+#value start: « U+00AB
+#value end: » U+00BB
+
+usersFile = "/home/Ee0Rk/mysite/client.txt";
+incUsersFile = "/home/Ee0Rk/mysite/discClients.txt";
+discUsersFile = "/home/Ee0Rk/mysite/discClients.txt";
 
 admins = ["default"];
 clients = ["default"];
 
 app = Flask(__name__);
 
-class collection:
-    def __init__(self, label, x, y, width, height):
-        self.label = label;
-        self.x = x;
-        self.y = y;
-        self.width = width;
-        self.height = height;
-
 def removeDupes(list): return set(list);
+
+def readResponse(response):
+    reading_item = False;
+    item_index = 0;
+    list_index = 0;
+    section_index = 0;
+    item_string = "";
+
+    items = [];
+    sections = [];
+    lists = [];
+
+    for letter in response:
+        if (letter == "«"):
+            item_string = "";
+            reading_item = True;
+            continue;
+        elif (letter == "»"):
+            items.append(item_string);
+            item_string = "";
+            reading_item = False;
+            continue;
+        elif (letter == "►"):
+            item_index+=1;
+            continue;
+        elif (letter == "▼"):
+            sections.append(items);
+            items = [];
+            section_index+=1;
+            continue;
+        elif (letter == "¶"):
+            lists.append(sections);
+            sections = [];
+            list_index+=1;
+            continue;
+        else:
+            if (reading_item):
+                item_string += letter;
+
+        return lists;
+
+def write(file, value, append):
+    return
+def read(file, raw):
+    if (raw):
+        with open(file, "r") as file:
+            return file.read();
+    else:
+        with open(file, "r") as file:
+            return file.read().split("▼");
+           
+def check_address(ip_address):
+    if ip_address.count('.') != 3 or not all(ip_byte.isdigit() and int(ip_byte) < 255 for ip_byte in ip_address.split('.')):
+        return False
+    else: return True
 
 def _ping():
     while True:
+        global admins;
+        global clients;
+        t_admins=[];
+        t_clients=[];
+        d_admins=[];
+        d_clients=[];
+        i_admins=[];
+        i_clients=[];
+        for line in admins:
+            if(check_address(line)):
+                param = '-n' if platform.system().lower()=='windows' else '-c'
+                command = ['ping', param, '1', line]
+                response =  subprocess.call(command) == 0
+                if (response):
+                    t_admins.append(line);
+                else:
+                    d_admins.append(line);
+            else:
+                i_admins.append(line);
+        for line in clients:
+            if(check_address(line)):
+                param = '-n' if platform.system().lower()=='windows' else '-c'
+                command = ['ping', param, '1', line]
+                response =  subprocess.call(command) == 0
+                if (response):
+                    t_clients.append(line);
+                else:
+                    d_clients.append(line);
+            else:
+                i_clients.append(line);
+
+
         sleep(10);
+
 
 #####################################HOME
 @app.route('/')
 def home():
-    global admins;
-    global clients;
-    admins=[];
-    clients=[];
-    with open("/home/Ee0Rk/mysite/admins.txt", "r") as file:
-            for line in file.readlines():
-                admins.append(line);
-    with open("/home/Ee0Rk/mysite/clients.txt", "r") as file:
-            for line in file.readlines():
-                clients.append(line);
-    return str(clients) + "," + str(admins);
+    file = read(usersFile, True);
+    return file;
 #####################################ADMIN
 @app.route('/admin/<ip>')
 def admin_login(ip):
@@ -91,5 +176,11 @@ def client_logout(ip):
         return "fail";
 
 if __name__ == '__main__':
+    if (not os.File.exists(usersFile)):
+        os.File.create(usersFile)
+    if (not os.File.exists(incUsersFile)):
+        os.File.create(incUsersFile)
+    if (not os.File.exists(discUsersFile)):
+        os.File.create(discUsersFile)
     p = Process(_ping).start();
     app.run(port=45698);

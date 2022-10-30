@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace rascal_controller.util
 {
-    internal class rendeServerResponseTemplate
+    internal class configTemplate
     {
     }
 }

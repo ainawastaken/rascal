@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rascal_client", "rascal_cli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{072A9DC8-BFEC-4556-B55B-DB35E3242062}"
 	ProjectSection(SolutionItems) = preProject
+		readresponse.py = readresponse.py
+		references.txt = references.txt
 		server.py = server.py
 	EndProjectSection
 EndProject

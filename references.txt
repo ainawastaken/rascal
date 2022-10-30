@@ -1,0 +1,11 @@
+﻿https://www.pythonanywhere.com/user/Ee0Rk/files/home/Ee0Rk/mysite/rende_serv.py
+https://www.pythonanywhere.com/user/Ee0Rk/files/home/Ee0Rk/mysite/clients.txt
+https://www.pythonanywhere.com/user/Ee0Rk/files/home/Ee0Rk/mysite/admins.txt
+Example response:
+	  item split              item split
+		   ↓                       ↓
+«ip»►«name»▼«ip»►«name»¶«ip»►«name»▼«ip»►«name»
+↑                     ↑↑↑                     ↑
+└──────────┬──────────┘│└──────────┬──────────┘
+	  first list       │	  second list
+			      list split
