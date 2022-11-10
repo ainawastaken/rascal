@@ -8,9 +8,40 @@ namespace rascal_controller.util
 {
     internal class responseReader
     {
-        public static string writeResponse(string[][][] items)
+        public static string writeResponse(string[][][] ents)
         {
+            string str = "";
 
+            int subitemIndex = 0;
+            int itemIndex = 0;
+            int listIndex = 0;
+
+            foreach (string[][] lists in ents)
+            {
+                listIndex++;
+                if (listIndex > 0 & listIndex != ents.Length - 1)
+                {
+                    str += "¶";
+                }
+                foreach (string[] items in lists)
+                {
+                    itemIndex++;
+                    if (itemIndex > 0 & itemIndex != lists.Length - 1)
+                    {
+                        str += "▼";
+                    }
+                    foreach (string subitem in items)
+                    {
+                        subitemIndex++;
+                        str += $"«{subitem}»";
+                        if (subitemIndex > 0 & subitemIndex != items.Length - 1)
+                        {
+                            str += "►";
+                        }
+                    }
+                }
+            }
+            return str;
         }
 
         public static string[][][] readResponse(string response)

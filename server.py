@@ -64,8 +64,26 @@ def readResponse(response):
 
         return lists;
 
-def write(file, value, append):
-    return
+def writeResponse(ents):
+    str = ""
+    subitemIndex = 0
+    itemIndex = 0
+    listIndex = 0
+    for lists in ents:
+        listIndex += 1
+        if ((listIndex > 0) & (listIndex != (ents.Length - 1))):
+            str += "¶"
+        for items in lists:
+            itemIndex += 1
+            if ((itemIndex > 0) & (itemIndex != (lists.Length - 1))):
+                str += "▼"
+            for subitem in items:
+                subitemIndex += 1
+                str += "«{}»".format(subitem)
+                if ((subitemIndex > 0) & (subitemIndex != (items.Length - 1))):
+                    str += "►"
+    return str
+
 def read(file, raw):
     if (raw):
         with open(file, "r") as file:
@@ -133,7 +151,7 @@ def admin_login(ip):
         admins = removeDupes(admins);
         with open("/home/Ee0Rk/mysite/admins.txt", "w") as file:
             for line in admins:
-                file.write(line+"\n");
+                file.write(line+"\n");  
         return "success\n" + str(clients) + "\n" + str(admins);
 
 @app.route('/admin/<ip>/disconnect')

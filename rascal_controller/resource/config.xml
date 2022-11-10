@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<root>
+    <remoteURl>https://ee0rk.pythonanywhere.com/</remoteURl>
+    <administratorUrl>admins/</administratorUrl>
+    <clientUrl>clients/</clientUrl>
+    <disconnectUrl>disconnect/</disconnectUrl>
+    <forceHttps>true</forceHttps>
+    <auth>true</auth>
+    <b64>true</b64>
+    <username>YWRtaW4=</username>
+    <password>cGFzc3dvcmQ=</password>
+</root>
