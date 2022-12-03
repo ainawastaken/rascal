@@ -7,11 +7,11 @@ using System.Net;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 
-namespace rascal_controller.util
+namespace rascal_client.util
 {
     class webRequest
     {
-        public bool CheckURLValid(string source)
+        public static bool CheckURLValid(string source)
         {
             Uri uriResult;
             return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
@@ -30,7 +30,7 @@ namespace rascal_controller.util
             public bool success;
             public string message;
         }
-        public async Task<PingReply> PingAsync(string url)
+        public static async Task<PingReply> PingAsync(string url)
         {
 
             Ping ping = new Ping();
@@ -38,26 +38,11 @@ namespace rascal_controller.util
             PingReply result = await ping.SendPingAsync(url);
             return result;
         }
-        public response request(string url, string[][] headers)
+        public static response request(string url, string usr="", string pass="")
         {
             Stopwatch stopw = new Stopwatch();
             stopw.Start();
             response r = new response();
-            if (headers.Length > 99)
-            {
-                r.success = false;
-                r.message = "to many headers!";
-                return r;
-            }
-            foreach (string[] sa in headers)
-            {
-                if (sa.Length > 2)
-                {
-                    r.success = false;
-                    r.message = "to many sub-headers!";
-                    return r;
-                }
-            }
             if (!CheckURLValid(url))
             {
                 r.success = false;
@@ -76,13 +61,12 @@ namespace rascal_controller.util
                 r.RTP = png.RoundtripTime;
             }
 
-            r.headers = headers;
 
             using (var client = new WebClient())
             {
-                foreach (string[] hdr in headers)
+                if (pass != "" & usr != "")
                 {
-                    client.Headers.Add(hdr[0], hdr[1]);
+                    client.Credentials = new NetworkCredential(usr, pass);
                 }
                 r.bytes = client.DownloadData(url);
                 var str = Encoding.Default.GetString(r.bytes);

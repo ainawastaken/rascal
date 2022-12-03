@@ -63,9 +63,9 @@
             this.clientMonitor1 = new System.Windows.Forms.PictureBox();
             this.monitorToolBar1 = new System.Windows.Forms.ToolStrip();
             this.monitorAspectRatioList1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.mainTabControl.SuspendLayout();
             this.databaseTabPage1.SuspendLayout();
             this.communicationsGroupBox1.SuspendLayout();

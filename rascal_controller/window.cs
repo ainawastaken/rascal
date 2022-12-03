@@ -37,6 +37,10 @@ namespace rascal_controller
         {
             Stopwatch stopw = new Stopwatch();
             stopw.Start();
+            loadingForm lf = new loadingForm();
+            lf.Show();
+            lf.loadingLbl1.Text = "Loading Configuration";
+            lf.Update();    
             communicationsText_rtxt1.AppendText("Loading config: " + configPath_txt1.Text + "\n");
             configPath =
                 Directory.GetParent(Application.ExecutablePath) + @"\" + configPath_txt1.Text;
@@ -51,6 +55,8 @@ namespace rascal_controller
             {
                 communicationsText_rtxt1.AppendText(ex.Message + "\n");
             }
+            lf.loadingLbl1.Text = "Pinging server+getting users";
+            lf.Update();
             serverPing_btn1.PerformClick();
             string _result;
             using (var client = new WebClient())
@@ -78,7 +84,9 @@ namespace rascal_controller
                     clientsListBox1.Items.Add(item);
                 }
             }
-            stopw.Stop();
+
+            lf.loadingLbl1.Text = "Performing requisites";
+            lf.Update();
             communicationsText_rtxt1.AppendText(
                 "Ordeal took: " + stopw.ElapsedMilliseconds + "ms\n"
             );
@@ -86,7 +94,7 @@ namespace rascal_controller
 
             foreach (KeyValuePair<string, Size[]> kvp in util.resolutions.aspects)
             {
-                foreach(Size size in kvp.Value)
+                foreach (Size size in kvp.Value)
                 {
                     monitorAspectRatioList1.DropDownItems.Add($"[{kvp.Key}] {size.Width}X{size.Height}");
                 }
@@ -94,7 +102,10 @@ namespace rascal_controller
 
             captureThread = new Thread(captureSingle);
             captureThread.Start();
+            lf.Hide();
+            lf.Dispose();
             GC.Collect();
+            stopw.Stop();
         }
         #endregion
         #region CONFIG AND PING
