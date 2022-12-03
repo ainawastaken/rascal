@@ -58,8 +58,14 @@
             this.adminsAdd_btn1 = new System.Windows.Forms.ToolStripButton();
             this.adminsRemove_btn1 = new System.Windows.Forms.ToolStripButton();
             this.adminsEdit_btn1 = new System.Windows.Forms.ToolStripButton();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.controlTabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.clientMonitor1 = new System.Windows.Forms.PictureBox();
+            this.monitorToolBar1 = new System.Windows.Forms.ToolStrip();
+            this.monitorAspectRatioList1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mainTabControl.SuspendLayout();
             this.databaseTabPage1.SuspendLayout();
             this.communicationsGroupBox1.SuspendLayout();
@@ -70,12 +76,16 @@
             this.clientsToolStrip1.SuspendLayout();
             this.adminsGroupBox1.SuspendLayout();
             this.adminsToolStrip1.SuspendLayout();
+            this.controlTabPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.clientMonitor1)).BeginInit();
+            this.monitorToolBar1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabControl
             // 
             this.mainTabControl.Controls.Add(this.databaseTabPage1);
-            this.mainTabControl.Controls.Add(this.tabPage2);
+            this.mainTabControl.Controls.Add(this.controlTabPage1);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTabControl.Location = new System.Drawing.Point(0, 0);
             this.mainTabControl.Name = "mainTabControl";
@@ -245,6 +255,7 @@
             this.clientsListBox1.Name = "clientsListBox1";
             this.clientsListBox1.Size = new System.Drawing.Size(194, 374);
             this.clientsListBox1.TabIndex = 1;
+            this.clientsListBox1.SelectedIndexChanged += new System.EventHandler(this.clientsListBox1_SelectedIndexChanged);
             // 
             // clientsToolStrip1
             // 
@@ -267,6 +278,7 @@
             this.clientsReload_btn1.Name = "clientsReload_btn1";
             this.clientsReload_btn1.Size = new System.Drawing.Size(47, 22);
             this.clientsReload_btn1.Text = "Reload";
+            this.clientsReload_btn1.Click += new System.EventHandler(this.clientsReload_btn1_Click);
             // 
             // clientsAdd_btn1
             // 
@@ -276,24 +288,29 @@
             this.clientsAdd_btn1.Name = "clientsAdd_btn1";
             this.clientsAdd_btn1.Size = new System.Drawing.Size(33, 22);
             this.clientsAdd_btn1.Text = "Add";
+            this.clientsAdd_btn1.Click += new System.EventHandler(this.clientsAdd_btn1_Click);
             // 
             // clientsRemove_btn1
             // 
             this.clientsRemove_btn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.clientsRemove_btn1.Enabled = false;
             this.clientsRemove_btn1.Image = ((System.Drawing.Image)(resources.GetObject("clientsRemove_btn1.Image")));
             this.clientsRemove_btn1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.clientsRemove_btn1.Name = "clientsRemove_btn1";
             this.clientsRemove_btn1.Size = new System.Drawing.Size(54, 22);
             this.clientsRemove_btn1.Text = "Remove";
+            this.clientsRemove_btn1.Click += new System.EventHandler(this.clientsRemove_btn1_Click);
             // 
             // clientsEdit_btn1
             // 
             this.clientsEdit_btn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.clientsEdit_btn1.Enabled = false;
             this.clientsEdit_btn1.Image = ((System.Drawing.Image)(resources.GetObject("clientsEdit_btn1.Image")));
             this.clientsEdit_btn1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.clientsEdit_btn1.Name = "clientsEdit_btn1";
             this.clientsEdit_btn1.Size = new System.Drawing.Size(31, 22);
             this.clientsEdit_btn1.Text = "Edit";
+            this.clientsEdit_btn1.Click += new System.EventHandler(this.clientsEdit_btn1_Click);
             // 
             // adminsGroupBox1
             // 
@@ -351,6 +368,7 @@
             // adminsRemove_btn1
             // 
             this.adminsRemove_btn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.adminsRemove_btn1.Enabled = false;
             this.adminsRemove_btn1.Image = ((System.Drawing.Image)(resources.GetObject("adminsRemove_btn1.Image")));
             this.adminsRemove_btn1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.adminsRemove_btn1.Name = "adminsRemove_btn1";
@@ -360,21 +378,80 @@
             // adminsEdit_btn1
             // 
             this.adminsEdit_btn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.adminsEdit_btn1.Enabled = false;
             this.adminsEdit_btn1.Image = ((System.Drawing.Image)(resources.GetObject("adminsEdit_btn1.Image")));
             this.adminsEdit_btn1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.adminsEdit_btn1.Name = "adminsEdit_btn1";
             this.adminsEdit_btn1.Size = new System.Drawing.Size(31, 22);
             this.adminsEdit_btn1.Text = "Edit";
             // 
-            // tabPage2
+            // controlTabPage1
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(792, 424);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.controlTabPage1.BackColor = System.Drawing.Color.Gainsboro;
+            this.controlTabPage1.Controls.Add(this.groupBox1);
+            this.controlTabPage1.ForeColor = System.Drawing.Color.Cornsilk;
+            this.controlTabPage1.Location = new System.Drawing.Point(4, 22);
+            this.controlTabPage1.Name = "controlTabPage1";
+            this.controlTabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.controlTabPage1.Size = new System.Drawing.Size(792, 424);
+            this.controlTabPage1.TabIndex = 1;
+            this.controlTabPage1.Text = "Control";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.clientMonitor1);
+            this.groupBox1.Controls.Add(this.monitorToolBar1);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(526, 334);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Client";
+            // 
+            // clientMonitor1
+            // 
+            this.clientMonitor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.clientMonitor1.Location = new System.Drawing.Point(3, 41);
+            this.clientMonitor1.Name = "clientMonitor1";
+            this.clientMonitor1.Size = new System.Drawing.Size(520, 290);
+            this.clientMonitor1.TabIndex = 3;
+            this.clientMonitor1.TabStop = false;
+            this.clientMonitor1.Paint += new System.Windows.Forms.PaintEventHandler(this.clientMonitor1_Paint);
+            // 
+            // monitorToolBar1
+            // 
+            this.monitorToolBar1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.monitorAspectRatioList1,
+            this.toolStripLabel1,
+            this.toolStripSeparator1});
+            this.monitorToolBar1.Location = new System.Drawing.Point(3, 16);
+            this.monitorToolBar1.Name = "monitorToolBar1";
+            this.monitorToolBar1.Size = new System.Drawing.Size(520, 25);
+            this.monitorToolBar1.TabIndex = 2;
+            this.monitorToolBar1.Text = "toolStrip2";
+            // 
+            // monitorAspectRatioList1
+            // 
+            this.monitorAspectRatioList1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.monitorAspectRatioList1.Image = global::rascal_controller.Properties.Resources.res;
+            this.monitorAspectRatioList1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.monitorAspectRatioList1.Name = "monitorAspectRatioList1";
+            this.monitorAspectRatioList1.Size = new System.Drawing.Size(29, 22);
+            this.monitorAspectRatioList1.Text = "toolStripDropDownButton1";
+            this.monitorAspectRatioList1.ToolTipText = "monitorAspectRatioList1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(86, 22);
+            this.toolStripLabel1.Text = "toolStripLabel1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // window
             // 
@@ -403,6 +480,12 @@
             this.adminsGroupBox1.PerformLayout();
             this.adminsToolStrip1.ResumeLayout(false);
             this.adminsToolStrip1.PerformLayout();
+            this.controlTabPage1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.clientMonitor1)).EndInit();
+            this.monitorToolBar1.ResumeLayout(false);
+            this.monitorToolBar1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -411,7 +494,7 @@
 
         private System.Windows.Forms.TabControl mainTabControl;
         private System.Windows.Forms.TabPage databaseTabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage controlTabPage1;
         private System.Windows.Forms.GroupBox clientsGroupBox1;
         private System.Windows.Forms.GroupBox adminsGroupBox1;
         private System.Windows.Forms.ListBox clientsListBox1;
@@ -439,6 +522,12 @@
         private System.Windows.Forms.ToolStripButton clearComLog_btn1;
         private System.Windows.Forms.RichTextBox pingLog_rtxt1;
         private System.Windows.Forms.ToolStripButton editConfigBtn1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox clientMonitor1;
+        private System.Windows.Forms.ToolStrip monitorToolBar1;
+        private System.Windows.Forms.ToolStripDropDownButton monitorAspectRatioList1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 

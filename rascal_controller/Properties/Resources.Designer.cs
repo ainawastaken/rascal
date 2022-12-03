@@ -22,7 +22,7 @@ namespace rascal_controller.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace rascal_controller.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("rascal_controller.Properties.Resources", typeof(Resources).Assembly);
@@ -51,12 +51,44 @@ namespace rascal_controller.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&apos;1.0&apos;?&gt;
+        ///&lt;Root&gt;
+        ///	&lt;remoteURl&gt;https://ee0rk.pythonanywhere.com/&lt;/remoteURl&gt;
+        ///	&lt;administratorUrl&gt;admin/&lt;/administratorUrl&gt;
+        ///	&lt;clientUrl&gt;client/&lt;/clientUrl&gt;
+        ///	&lt;disconnectUrl&gt;disconnect&lt;/disconnectUrl&gt;
+        ///	&lt;forceHttps&gt;true&lt;/forceHttps&gt;
+        ///	&lt;auth&gt;true&lt;/auth&gt;
+        ///	&lt;b64&gt;true&lt;/b64&gt;
+        ///	&lt;username&gt;YWRtaW4=&lt;/username&gt;
+        ///	&lt;password&gt;cGFzc3dvcmQ=&lt;/password&gt;
+        ///&lt;/Root&gt;
+        ///
+        ///.
+        /// </summary>
+        public static string config {
+            get {
+                return ResourceManager.GetString("config", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap res {
+            get {
+                object obj = ResourceManager.GetObject("res", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

@@ -16,5 +16,10 @@ namespace rascal_client
         {
             InitializeComponent();
         }
+
+        private void devForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
