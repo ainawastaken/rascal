@@ -25,19 +25,6 @@ namespace rascal_controller.configTemplate
 
 		[XmlElement(ElementName = "forceHttps")]
 		public bool ForceHttps { get; set; }
-
-
-		[XmlElement(ElementName = "auth")]
-		public bool Auth { get; set; }
-
-		[XmlElement(ElementName = "b64")]
-		public bool B64 { get; set; }
-
-		[XmlElement(ElementName = "username")]
-		public string Username { get; set; }
-
-		[XmlElement(ElementName = "password")]
-		public string Password { get; set; }
 	}
 
 }

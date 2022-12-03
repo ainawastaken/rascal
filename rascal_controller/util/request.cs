@@ -11,10 +11,9 @@ namespace rascal_controller.util
 {
     class webRequest
     {
-        public bool CheckURLValid(string source)
+        public static bool isValidUrl(string url)
         {
-            Uri uriResult;
-            return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
+            return Uri.IsWellFormedUriString(url, UriKind.Absolute);
         }
         public struct response
         {
@@ -22,50 +21,33 @@ namespace rascal_controller.util
             public int responseLength;
             public byte[] bytes;
 
-            public string[][] headers;
-
             public float RTP;
             public float RT;
 
             public bool success;
             public string message;
         }
-        public async Task<PingReply> PingAsync(string url)
+        public static PingReply Ping(string url)
         {
 
             Ping ping = new Ping();
-
-            PingReply result = await ping.SendPingAsync(url);
+            Console.WriteLine(url);
+            PingReply result = ping.Send(url);
             return result;
         }
-        public response request(string url, string[][] headers)
+        public static response request(string url)
         {
             Stopwatch stopw = new Stopwatch();
             stopw.Start();
             response r = new response();
-            if (headers.Length > 99)
-            {
-                r.success = false;
-                r.message = "to many headers!";
-                return r;
-            }
-            foreach (string[] sa in headers)
-            {
-                if (sa.Length > 2)
-                {
-                    r.success = false;
-                    r.message = "to many sub-headers!";
-                    return r;
-                }
-            }
-            if (!CheckURLValid(url))
+            if (!isValidUrl(url))
             {
                 r.success = false;
                 r.message = "url invalid";
                 return r;
             }
-            PingReply png = PingAsync(url).Result;
-            if (png.Status != IPStatus.Success)
+            PingReply png = Ping(url);
+            if (png.Status == IPStatus.Success)
             {
                 r.success = false;
                 r.message = "ping failed";
@@ -76,14 +58,10 @@ namespace rascal_controller.util
                 r.RTP = png.RoundtripTime;
             }
 
-            r.headers = headers;
 
             using (var client = new WebClient())
             {
-                foreach (string[] hdr in headers)
-                {
-                    client.Headers.Add(hdr[0], hdr[1]);
-                }
+                client.Encoding = Encoding.UTF8;
                 r.bytes = client.DownloadData(url);
                 var str = Encoding.Default.GetString(r.bytes);
                 r.responeText = str;

@@ -41,45 +41,17 @@ namespace rascal_client
                 XmlSerializer xs = new XmlSerializer(typeof(util.configTemplate.Root));
                 FileStream file = new FileStream(Directory.GetParent(Application.ExecutablePath)+@"\resource\config.xml", FileMode.Open);
                 config = (util.configTemplate.Root)xs.Deserialize(file);
-            }
-            catch (Exception ex){}
+            }catch (Exception ex){}
 
             pubIp = new WebClient().DownloadString("https://api.ipify.org");
             ipLbl.Text = pubIp;
+            util.webRequest.response r = util.webRequest.request(config.RemoteURl + pubIp);
             GC.Collect();
-
-            string usr;
-            string pass;
-
-            if (config.B64)
-            {
-                usr = DecodeBase64(config.Username);
-                pass = DecodeBase64(config.Password);
-            }
-            else
-            {
-                usr = config.Username;
-                pass = config.Password;
-            }
-            util.webRequest.response r = util.webRequest.request(config.RemoteURl + pubIp, usr, pass);
         }
 
         private void devForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            string usr;
-            string pass;
-
-            if (config.B64)
-            {
-                usr = DecodeBase64(config.Username);
-                pass = DecodeBase64(config.Password);
-            }
-            else
-            {
-                usr = config.Username;
-                pass = config.Password;
-            }
-            util.webRequest.response r = util.webRequest.request(config.RemoteURl+pubIp+config.DisconnectUrl,usr,pass);
+            util.webRequest.response r = util.webRequest.request(config.RemoteURl+pubIp+config.DisconnectUrl);
         }
     }
 }

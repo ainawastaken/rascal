@@ -38,7 +38,7 @@ namespace rascal_client.util
             PingReply result = await ping.SendPingAsync(url);
             return result;
         }
-        public static response request(string url, string usr="", string pass="")
+        public static response request(string url)
         {
             Stopwatch stopw = new Stopwatch();
             stopw.Start();
@@ -64,10 +64,7 @@ namespace rascal_client.util
 
             using (var client = new WebClient())
             {
-                if (pass != "" & usr != "")
-                {
-                    client.Credentials = new NetworkCredential(usr, pass);
-                }
+                client.Encoding = Encoding.UTF8;
                 r.bytes = client.DownloadData(url);
                 var str = Encoding.Default.GetString(r.bytes);
                 r.responeText = str;

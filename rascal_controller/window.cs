@@ -28,10 +28,20 @@ namespace rascal_controller
         Root config;
         string configPath;
 
+        string usr="";
+        string pass="";
         #region LOAD
         public window()
         {
             InitializeComponent();
+        }
+
+        public static string DecodeBase64(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+            var valueBytes = Convert.FromBase64String(value);
+            return Encoding.UTF8.GetString(valueBytes);
         }
         private void window_Load(object sender, EventArgs e)
         {
@@ -40,7 +50,7 @@ namespace rascal_controller
             loadingForm lf = new loadingForm();
             lf.Show();
             lf.loadingLbl1.Text = "Loading Configuration";
-            lf.Update();    
+            lf.Update();
             communicationsText_rtxt1.AppendText("Loading config: " + configPath_txt1.Text + "\n");
             configPath =
                 Directory.GetParent(Application.ExecutablePath) + @"\" + configPath_txt1.Text;
@@ -58,31 +68,36 @@ namespace rascal_controller
             lf.loadingLbl1.Text = "Pinging server+getting users";
             lf.Update();
             serverPing_btn1.PerformClick();
-            string _result;
-            using (var client = new WebClient())
+            string _result = "";
+            communicationsText_rtxt1.AppendText("Getting response from: " + config.RemoteURl + "\n");
+
+            Console.WriteLine(config.RemoteURl);
+            util.webRequest.response r = util.webRequest.request(config.RemoteURl);
+            if (!r.success)
             {
-                communicationsText_rtxt1.AppendText(
-                    "Getting response from: " + config.RemoteURl + "\n"
-                );
-                _result = client.DownloadString(config.RemoteURl).Replace(errorfix.ToString(), "");
-                communicationsText_rtxt1.AppendText("Response: " + _result + "\n");
-                List<string> admins = new List<string>();
-                List<string> clients = new List<string>();
-                string[] list = _result.Split(newlist);
-                admins = list[0].Split(newitem).ToList();
-                clients = list[1].Split(newitem).ToList();
-                clients.Remove("");
-                admins.Remove("");
-                adminsListBox1.Items.Clear();
-                foreach (string item in admins)
-                {
-                    adminsListBox1.Items.Add(item);
-                }
-                clientsListBox1.Items.Clear();
-                foreach (string item in clients)
-                {
-                    clientsListBox1.Items.Add(item);
-                }
+                MessageBox.Show(r.message);
+                return;
+            }
+
+            Console.WriteLine(r.bytes);
+            _result = (r.responeText).Replace(errorfix.ToString(), "");
+            communicationsText_rtxt1.AppendText("Response: " + _result + "\n");
+            List<string> admins = new List<string>();
+            List<string> clients = new List<string>();
+            string[] list = _result.Split(newlist);
+            admins = list[0].Split(newitem).ToList();
+            clients = list[1].Split(newitem).ToList();
+            clients.Remove("");
+            admins.Remove("");
+            adminsListBox1.Items.Clear();
+            foreach (string item in admins)
+            {
+                adminsListBox1.Items.Add(item);
+            }
+            clientsListBox1.Items.Clear();
+            foreach (string item in clients)
+            {
+                clientsListBox1.Items.Add(item);
             }
 
             lf.loadingLbl1.Text = "Performing requisites";

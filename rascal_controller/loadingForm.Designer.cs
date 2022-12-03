@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.loadingLbl1 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,6 +44,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(220, 80);
             this.panel1.TabIndex = 0;
+            // 
+            // loadingLbl1
+            // 
+            this.loadingLbl1.AutoSize = true;
+            this.loadingLbl1.BackColor = System.Drawing.Color.Transparent;
+            this.loadingLbl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.loadingLbl1.Location = new System.Drawing.Point(0, 0);
+            this.loadingLbl1.Name = "loadingLbl1";
+            this.loadingLbl1.Size = new System.Drawing.Size(14, 17);
+            this.loadingLbl1.TabIndex = 1;
+            this.loadingLbl1.Text = "...";
+            this.loadingLbl1.UseCompatibleTextRendering = true;
             // 
             // label1
             // 
@@ -59,18 +71,6 @@
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label1.UseCompatibleTextRendering = true;
             // 
-            // loadingLbl1
-            // 
-            this.loadingLbl1.AutoSize = true;
-            this.loadingLbl1.BackColor = System.Drawing.Color.Transparent;
-            this.loadingLbl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.loadingLbl1.Location = new System.Drawing.Point(0, 0);
-            this.loadingLbl1.Name = "loadingLbl1";
-            this.loadingLbl1.Size = new System.Drawing.Size(14, 17);
-            this.loadingLbl1.TabIndex = 1;
-            this.loadingLbl1.Text = "...";
-            this.loadingLbl1.UseCompatibleTextRendering = true;
-            // 
             // loadingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -85,6 +85,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "loadingForm";
             this.TopMost = true;
             this.panel1.ResumeLayout(false);
