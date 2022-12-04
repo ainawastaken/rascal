@@ -24,15 +24,6 @@ namespace rascal_client
 
         string pubIp;
 
-
-        public static string DecodeBase64(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return string.Empty;
-            var valueBytes = Convert.FromBase64String(value);
-            return Encoding.UTF8.GetString(valueBytes);
-        }
-
         private void devForm_Load(object sender, EventArgs e)
         {
             try
@@ -45,13 +36,14 @@ namespace rascal_client
 
             pubIp = new WebClient().DownloadString("https://api.ipify.org");
             ipLbl.Text = pubIp;
-            util.webRequest.response r = util.webRequest.request(config.RemoteURl + config.ClientUrl + pubIp);
+            webRequest.response r = webRequest.request(config.RemoteURl + config.ClientUrl + pubIp);
             GC.Collect();
         }
 
         private void devForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            util.webRequest.response r = util.webRequest.request(config.RemoteURl+pubIp+config.DisconnectUrl);
+            string request = $"{config.RemoteURl}{config.ClientUrl}{pubIp}/{config.DisconnectUrl}";
+            webRequest.response r = webRequest.request(request);
         }
     }
 }
