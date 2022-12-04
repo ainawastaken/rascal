@@ -65,21 +65,19 @@ namespace rascal_controller
             {
                 communicationsText_rtxt1.AppendText(ex.Message + "\n");
             }
-            lf.loadingLbl1.Text = "Pinging server+getting users";
+            lf.loadingLbl1.Text = "Pinging server & getting users";
             lf.Update();
             serverPing_btn1.PerformClick();
             string _result = "";
             communicationsText_rtxt1.AppendText("Getting response from: " + config.RemoteURl + "\n");
 
-            Console.WriteLine(config.RemoteURl);
             util.webRequest.response r = util.webRequest.request(config.RemoteURl);
-            if (!r.success)
+            if (r.success)
             {
                 MessageBox.Show(r.message);
                 return;
             }
 
-            Console.WriteLine(r.bytes);
             _result = (r.responeText).Replace(errorfix.ToString(), "");
             communicationsText_rtxt1.AppendText("Response: " + _result + "\n");
             List<string> admins = new List<string>();
@@ -211,7 +209,6 @@ namespace rascal_controller
             }
         }
         #endregion
-
         #region CONTROL
         Size clientRes;
         float clientFPS;

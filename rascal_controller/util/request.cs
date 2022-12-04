@@ -27,37 +27,59 @@ namespace rascal_controller.util
             public bool success;
             public string message;
         }
-        public static PingReply Ping(string url)
+        public struct pingResponse
         {
+            public float RTP;
+            public bool success;
+            public int status;
+        }
+        public static pingResponse PingHost(string nameOrAddress)
+        {
+            Ping pinger = null;
+            pingResponse pr = new pingResponse();
+            try
+            {
+                pinger = new Ping();
+                PingReply reply = pinger.Send(nameOrAddress);
+                pr.status = (int)reply.Status;
+                pr.success = (pr.status == (int)IPStatus.Success);
+                pr.RTP = reply.RoundtripTime;
+            }
+            catch (PingException)
+            {
+                // Discard PingExceptions and return false;
+            }
+            finally
+            {
+                if (pinger != null)
+                {
+                    pinger.Dispose();
+                }
+            }
 
-            Ping ping = new Ping();
-            Console.WriteLine(url);
-            PingReply result = ping.Send(url);
-            return result;
+            return pr;
         }
         public static response request(string url)
         {
             Stopwatch stopw = new Stopwatch();
             stopw.Start();
             response r = new response();
+            r.success = true;
             if (!isValidUrl(url))
             {
                 r.success = false;
                 r.message = "url invalid";
                 return r;
             }
-            PingReply png = Ping(url);
-            if (png.Status == IPStatus.Success)
+            var response = PingHost(url);
+            if (response.success)
             {
                 r.success = false;
                 r.message = "ping failed";
                 return r;
             }
-            else
-            {
-                r.RTP = png.RoundtripTime;
-            }
-
+            r.success = response.success;
+            r.RTP = response.RTP;
 
             using (var client = new WebClient())
             {

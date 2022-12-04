@@ -22,9 +22,6 @@ namespace rascal_controller.configTemplate
 
 		[XmlElement(ElementName = "disconnectUrl")]
 		public string DisconnectUrl { get; set; }
-
-		[XmlElement(ElementName = "forceHttps")]
-		public bool ForceHttps { get; set; }
 	}
 
 }

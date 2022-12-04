@@ -45,7 +45,7 @@ namespace rascal_client
 
             pubIp = new WebClient().DownloadString("https://api.ipify.org");
             ipLbl.Text = pubIp;
-            util.webRequest.response r = util.webRequest.request(config.RemoteURl + pubIp);
+            util.webRequest.response r = util.webRequest.request(config.RemoteURl + config.ClientUrl + pubIp);
             GC.Collect();
         }
 

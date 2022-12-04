@@ -4,6 +4,5 @@
 	<administratorUrl>admin/</administratorUrl>
 	<clientUrl>client/</clientUrl>
 	<disconnectUrl>disconnect</disconnectUrl>
-	<forceHttps>true</forceHttps>
 </Root>
 

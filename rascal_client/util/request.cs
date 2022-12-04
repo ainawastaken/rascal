@@ -11,10 +11,9 @@ namespace rascal_client.util
 {
     class webRequest
     {
-        public static bool CheckURLValid(string source)
+        public static bool isValidUrl(string url)
         {
-            Uri uriResult;
-            return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
+            return Uri.IsWellFormedUriString(url, UriKind.Absolute);
         }
         public struct response
         {
@@ -22,45 +21,65 @@ namespace rascal_client.util
             public int responseLength;
             public byte[] bytes;
 
-            public string[][] headers;
-
             public float RTP;
             public float RT;
 
             public bool success;
             public string message;
         }
-        public static async Task<PingReply> PingAsync(string url)
+        public struct pingResponse
         {
+            public float RTP;
+            public bool success;
+            public int status;
+        }
+        public static pingResponse PingHost(string nameOrAddress)
+        {
+            Ping pinger = null;
+            pingResponse pr = new pingResponse();
+            try
+            {
+                pinger = new Ping();
+                PingReply reply = pinger.Send(nameOrAddress);
+                pr.status = (int)reply.Status;
+                pr.success = (pr.status == (int)IPStatus.Success);
+                pr.RTP = reply.RoundtripTime;
+            }
+            catch (PingException)
+            {
+                // Discard PingExceptions and return false;
+            }
+            finally
+            {
+                if (pinger != null)
+                {
+                    pinger.Dispose();
+                }
+            }
 
-            Ping ping = new Ping();
-
-            PingReply result = await ping.SendPingAsync(url);
-            return result;
+            return pr;
         }
         public static response request(string url)
         {
             Stopwatch stopw = new Stopwatch();
             stopw.Start();
             response r = new response();
-            if (!CheckURLValid(url))
+            r.success = true;
+            if (!isValidUrl(url))
             {
                 r.success = false;
                 r.message = "url invalid";
                 return r;
             }
-            PingReply png = PingAsync(url).Result;
-            if (png.Status != IPStatus.Success)
+            var response = PingHost(url);
+            if (response.success)
             {
                 r.success = false;
                 r.message = "ping failed";
                 return r;
             }
-            else
-            {
-                r.RTP = png.RoundtripTime;
-            }
-
+            r.success = response.success;
+            r.RTP = response.RTP;
 
             using (var client = new WebClient())
             {
