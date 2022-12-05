@@ -150,29 +150,26 @@ namespace rascal_controller
         private void clientsReload_btn1_Click(object sender, EventArgs e)
         {
             string _result;
-            using (var client = new WebClient())
+            _result = util.webRequest.request(config.RemoteURl).responeText.Replace(errorfix.ToString(),"");
+            List<string> clients = new List<string>();
+            string[] list = _result.Split(newlist);
+            clients = list[1].Split(newitem).ToList();
+            clients.Remove("");
+            clientsListBox1.Items.Clear();
+            foreach (string item in clients)
             {
-                _result = client.DownloadString(config.RemoteURl).Replace(errorfix.ToString(), "");
-                List<string> clients = new List<string>();
-                string[] list = _result.Split(newlist);
-                clients = list[1].Split(newitem).ToList();
-                clients.Remove("");
-                clientsListBox1.Items.Clear();
-                foreach (string item in clients)
-                {
-                    clientsListBox1.Items.Add(item);
-                }
+                clientsListBox1.Items.Add(item);
             }
         }
         private void clientsAdd_btn1_Click(object sender, EventArgs e)
         {
             string input = Interaction.InputBox("Client IP", "Add client", null);
             string request = $"{config.RemoteURl}{config.ClientUrl}{input}";
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(request);
+            var _result = util.webRequest.request(request);
             if (input.Replace(" ","") != "")
             {
                 Console.WriteLine(request);
-                communicationsText_rtxt1.AppendText($"Latest request resulted in: {req.GetResponse().ToString()}\n");
+                communicationsText_rtxt1.AppendText($"Latest request resulted in: {_result.responeText}\n");
             }
             clientsReload_btn1.PerformClick();
         }
@@ -181,9 +178,7 @@ namespace rascal_controller
             if (clientsListBox1.SelectedIndex != -1)
             {
                 string request = $"{config.RemoteURl}{config.ClientUrl}{clientsListBox1.SelectedItem}/{config.DisconnectUrl}";
-                Console.WriteLine(request);
-                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(request);
-                req.GetResponse();
+                util.webRequest.request(request);
                 clientsReload_btn1.PerformClick();
             }
         }

@@ -75,6 +75,9 @@
     <Compile Include="loadingForm.Designer.cs">
       <DependentUpon>loadingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="util\customs.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="util\resolution.cs" />
     <Compile Include="fileEditor.cs">
       <SubType>Form</SubType>
