@@ -16,14 +16,15 @@ using rascal_controller.configTemplate;
 using Microsoft.VisualBasic;
 using System.Drawing.Imaging;
 using System.Threading;
+using rascal_controller.util.connection;
+using rascal_controller.util;
 
 namespace rascal_controller
 {
     public partial class window : Form
     {
-        char newlist = '¶';
-        char newitem = '»';
-        char errorfix = 'Â';
+        bool[] clientPings;
+        bool[] adminPings;
 
         Root config;
         string configPath;
@@ -54,6 +55,7 @@ namespace rascal_controller
             communicationsText_rtxt1.AppendText("Loading config: " + configPath_txt1.Text + "\n");
             configPath =
                 Directory.GetParent(Application.ExecutablePath) + @"\" + configPath_txt1.Text;
+
             try
             {
                 config = new configTemplate.Root();
@@ -78,13 +80,13 @@ namespace rascal_controller
                 return;
             }
 
-            _result = (r.responeText).Replace(errorfix.ToString(), "");
+            _result = (r.responeText).Replace(helpers.errorfix.ToString(), "");
             communicationsText_rtxt1.AppendText("Response: " + _result + "\n");
             List<string> admins = new List<string>();
             List<string> clients = new List<string>();
-            string[] list = _result.Split(newlist);
-            admins = list[0].Split(newitem).ToList();
-            clients = list[1].Split(newitem).ToList();
+            string[] list = _result.Split(helpers.newlist);
+            admins = list[0].Split(helpers.newitem).ToList();
+            clients = list[1].Split(helpers.newitem).ToList();
             clients.Remove("");
             admins.Remove("");
             adminsListBox1.Items.Clear();
@@ -93,16 +95,36 @@ namespace rascal_controller
                 adminsListBox1.Items.Add(item);
             }
             clientsListBox1.Items.Clear();
+            Graphics clg = clientsListBox1.CreateGraphics();
+            int ind = 0;
+            clientPings = new bool[clients.Count];
             foreach (string item in clients)
             {
+                ind++;
                 clientsListBox1.Items.Add(item);
+                curCliCombo1.Items.Add(item);
+                clientSelectRawDomain1.Items.Add(item);
+                clientSelectRawDomain1.SelectedIndex = 0;
+
+                string it = item;
+                if (item == null | item == "")
+                {
+                    it = "none";
+                }
+                if (/*util.webRequest.isValidUrl(it) & */util.webRequest.PingHost(it).success)
+                {
+                    clientPings[ind - 1] = true;
+                }
+                else
+                {
+                    clientPings[ind - 1] = false;
+                }
             }
+            curCliCombo1.SelectedIndex = 0;
 
             lf.loadingLbl1.Text = "Performing requisites";
             lf.Update();
-            communicationsText_rtxt1.AppendText(
-                "Ordeal took: " + stopw.ElapsedMilliseconds + "ms\n"
-            );
+            
             clientMonitor1.SizeMode = PictureBoxSizeMode.StretchImage;
 
             foreach (KeyValuePair<string, Size[]> kvp in util.resolutions.aspects)
@@ -115,9 +137,18 @@ namespace rascal_controller
 
             captureThread = new Thread(captureSingle);
             captureThread.Start();
+
+            udpServer.outputs.Add(onRecv);
+
+            Thread servThread = new Thread(udpServer.serverThread);
+            servThread.Start();
+
             lf.Hide();
             lf.Dispose();
             GC.Collect();
+            communicationsText_rtxt1.AppendText(
+                "Ordeal took: " + stopw.ElapsedMilliseconds + "ms\n"
+            );
             stopw.Stop();
         }
         #endregion
@@ -147,13 +178,23 @@ namespace rascal_controller
         }
         #endregion
         #region CLIENTS HADNLING
+        private void clientsListBox1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.Graphics.DrawRectangle(Pens.Green, new Rectangle(
+                        //clientsListBox1.Width-clientsListBox1.ItemHeight, 
+                        10,
+                        //clientsListBox1.ItemHeight * e.Index,
+                        10,
+                        clientsListBox1.ItemHeight,
+                        clientsListBox1.ItemHeight));
+        }
         private void clientsReload_btn1_Click(object sender, EventArgs e)
         {
             string _result;
-            _result = util.webRequest.request(config.RemoteURl).responeText.Replace(errorfix.ToString(),"");
+            _result = util.webRequest.request(config.RemoteURl).responeText.Replace(helpers.errorfix.ToString(),"");
             List<string> clients = new List<string>();
-            string[] list = _result.Split(newlist);
-            clients = list[1].Split(newitem).ToList();
+            string[] list = _result.Split(helpers.newlist);
+            clients = list[1].Split(helpers.newitem).ToList();
             clients.Remove("");
             clientsListBox1.Items.Clear();
             foreach (string item in clients)
@@ -270,6 +311,12 @@ namespace rascal_controller
             }
         }
 
+        #endregion
+        #region CONNECTION
+        public void onRecv(byte[] data)
+        {
+            comConsoleBox1.print(Encoding.ASCII.GetString(data),"RECV");
+        }
         #endregion
     }
 }

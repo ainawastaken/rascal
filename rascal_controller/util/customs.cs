@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace rascal_controller.util
 {
+    [ToolboxItem(true)]
     public class ToolStripSpringTextBox : ToolStripTextBox
     {
         public override Size GetPreferredSize(Size constrainingSize)
@@ -70,5 +72,44 @@ namespace rascal_controller.util
             return size;
         }
     }
-}
 
+    [ToolboxItem(true)]
+    public class ConsoleBox : RichTextBox
+    {
+        public ConsoleBox()
+        {
+            DetectUrls = true;
+            ScrollBars = RichTextBoxScrollBars.Both;
+            RichTextShortcutsEnabled = true;
+            MaxLength = int.MaxValue;
+            Multiline = true;
+            AutoSize = false;
+            WordWrap = false;
+            ReadOnly = true;
+        }
+
+        public void AppendTextColor(string text, Color color)
+        {
+            this.SelectionStart = this.TextLength;
+            this.SelectionLength = 0;
+
+            this.SelectionColor = color;
+            this.AppendText(text);
+            this.SelectionColor = this.ForeColor;
+        }
+
+        public void print(string message="",string _from = "",char decorator = ']')
+        {
+            string text = $"{_from}{decorator} {message}\n";
+            this.AppendText(text);
+        }
+
+        public void printColor(Color clr, string message = "", string _from = "", char decorator = ']')
+        {
+            string text1 = $"{_from}{decorator} ";
+            string text2 = $"{message}\n";
+            this.AppendText(text1);
+            this.AppendTextColor(text2, clr);
+        }
+    }
+}

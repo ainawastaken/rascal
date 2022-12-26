@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.Net;
 using System.Xml.Serialization;
@@ -34,6 +35,11 @@ namespace rascal_client
                 config = (util.configTemplate.Root)xs.Deserialize(file);
             }catch (Exception ex){}
 
+            util.connection.udpServer.outputs.Add(onRecv);
+
+            Thread servThread = new Thread(util.connection.udpServer.serverThread);
+            servThread.Start();
+
             pubIp = new WebClient().DownloadString("https://api.ipify.org");
             ipLbl.Text = pubIp;
             webRequest.response r = webRequest.request(config.RemoteURl + config.ClientUrl + pubIp);
@@ -45,5 +51,18 @@ namespace rascal_client
             string request = $"{config.RemoteURl}{config.ClientUrl}{pubIp}/{config.DisconnectUrl}";
             webRequest.response r = webRequest.request(request);
         }
+
+        #region CONNECTION
+        util.connection.udpClient udpClient = new util.connection.udpClient();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            udpClient.send("cock");
+        }
+        public void onRecv(byte[] data)
+        {
+            MessageBox.Show(Encoding.UTF8.GetString(data));
+        }
+        
+        #endregion
     }
 }

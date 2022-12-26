@@ -1,10 +1,64 @@
-﻿https://www.pythonanywhere.com/user/Ee0Rk/files/home/Ee0Rk/mysite/rende_serv.py
-https://www.pythonanywhere.com/user/Ee0Rk/files/home/Ee0Rk/mysite/clients.txt
-https://www.pythonanywhere.com/user/Ee0Rk/files/home/Ee0Rk/mysite/admins.txt
+﻿I = Index
+T = Type
+¦ = Split charachter
+
+I¦T¦DATA
+
+Types:
+cn = controller
+cl = client
+gn = general
+dv = dev
 
 
 
-«ip»•«ip»¶«ip»•«ip»
 
-item split: •
-list split: ¶
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#region tools
+
+        
+
+        #endregion
+
+
+
+
+
+
+
+
+        WindowsFirewallHelper.IFirewallRule rule = FirewallManager.Instance.CreateApplicationRule(
+            @"Port 5000 - Any Protocol",
+            FirewallAction.Allow,
+            AppDomain.CurrentDomain.BaseDirectory
+        );
+
+
+
+
+
+
+
+
+        
+
+        public void init()
+        {
+            foreach (var profile in FirewallManager.Instance.Profiles)
+            {
+                profile.ShowNotifications = false;
+            }
+        }

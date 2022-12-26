@@ -22,6 +22,12 @@ namespace rascal_controller.configTemplate
 
 		[XmlElement(ElementName = "disconnectUrl")]
 		public string DisconnectUrl { get; set; }
-	}
 
+        [XmlElement(ElementName = "clientPort")]
+		public string clientPort { get; set; }
+
+		[XmlElement(ElementName = "serverPort")]
+		public string serverPort { get; set; }
+
+	}
 }

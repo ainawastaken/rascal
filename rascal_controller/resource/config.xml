@@ -4,5 +4,7 @@
 	<administratorUrl>admin/</administratorUrl>
 	<clientUrl>client/</clientUrl>
 	<disconnectUrl>disconnect</disconnectUrl>
+	<clientPort>5000</clientPort>
+	<serverPort>5010</serverPort>
 </Root>
 

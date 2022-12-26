@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        public void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(window));
@@ -65,13 +65,26 @@
             this.monitorAspectRatioList1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.rawTabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comConsoleBox1 = new rascal_controller.util.ConsoleBox();
+            this.clientSelectRawDomain1 = new System.Windows.Forms.DomainUpDown();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSpringTextBox1 = new rascal_controller.util.ToolStripSpringTextBox();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.curClientTabPage1 = new System.Windows.Forms.TabPage();
+            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
+            this.curCliCombo1 = new System.Windows.Forms.ToolStripComboBox();
+            this.reloadCurClieBtn1 = new System.Windows.Forms.ToolStripButton();
+            this.curCliConnectBtn1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.statusLbl1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSpringTextBox2 = new rascal_controller.util.ToolStripSpringTextBox();
+            this.connectCustomBtn1 = new System.Windows.Forms.ToolStripButton();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.mainTabControl.SuspendLayout();
             this.databaseTabPage1.SuspendLayout();
             this.communicationsGroupBox1.SuspendLayout();
@@ -89,6 +102,8 @@
             this.rawTabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.curClientTabPage1.SuspendLayout();
+            this.toolStrip4.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabControl
@@ -96,6 +111,7 @@
             this.mainTabControl.Controls.Add(this.databaseTabPage1);
             this.mainTabControl.Controls.Add(this.controlTabPage1);
             this.mainTabControl.Controls.Add(this.rawTabPage1);
+            this.mainTabControl.Controls.Add(this.curClientTabPage1);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTabControl.Location = new System.Drawing.Point(0, 0);
             this.mainTabControl.Name = "mainTabControl";
@@ -265,6 +281,7 @@
             this.clientsListBox1.Name = "clientsListBox1";
             this.clientsListBox1.Size = new System.Drawing.Size(194, 374);
             this.clientsListBox1.TabIndex = 1;
+            this.clientsListBox1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.clientsListBox1_DrawItem);
             this.clientsListBox1.SelectedIndexChanged += new System.EventHandler(this.clientsListBox1_SelectedIndexChanged);
             // 
             // clientsToolStrip1
@@ -476,7 +493,8 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
-            this.groupBox2.Controls.Add(this.richTextBox1);
+            this.groupBox2.Controls.Add(this.comConsoleBox1);
+            this.groupBox2.Controls.Add(this.clientSelectRawDomain1);
             this.groupBox2.Controls.Add(this.toolStrip2);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
@@ -486,12 +504,32 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Raw communications";
             // 
+            // comConsoleBox1
+            // 
+            this.comConsoleBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comConsoleBox1.Location = new System.Drawing.Point(3, 36);
+            this.comConsoleBox1.Name = "comConsoleBox1";
+            this.comConsoleBox1.ReadOnly = true;
+            this.comConsoleBox1.Size = new System.Drawing.Size(264, 360);
+            this.comConsoleBox1.TabIndex = 3;
+            this.comConsoleBox1.Text = "";
+            this.comConsoleBox1.WordWrap = false;
+            // 
+            // clientSelectRawDomain1
+            // 
+            this.clientSelectRawDomain1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.clientSelectRawDomain1.Location = new System.Drawing.Point(3, 16);
+            this.clientSelectRawDomain1.Name = "clientSelectRawDomain1";
+            this.clientSelectRawDomain1.Size = new System.Drawing.Size(264, 20);
+            this.clientSelectRawDomain1.TabIndex = 2;
+            this.clientSelectRawDomain1.Text = "domainUpDown1";
+            // 
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox1,
+            this.toolStripSpringTextBox1,
             this.toolStripButton1});
             this.toolStrip2.Location = new System.Drawing.Point(3, 396);
             this.toolStrip2.Name = "toolStrip2";
@@ -499,30 +537,120 @@
             this.toolStrip2.TabIndex = 0;
             this.toolStrip2.Text = "toolStrip2";
             // 
-            // richTextBox1
+            // toolStripSpringTextBox1
             // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 16);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(264, 380);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.AutoSize = false;
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
+            this.toolStripSpringTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripSpringTextBox1.Name = "toolStripSpringTextBox1";
+            this.toolStripSpringTextBox1.Size = new System.Drawing.Size(207, 25);
             // 
             // toolStripButton1
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Text = "↑";
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // curClientTabPage1
+            // 
+            this.curClientTabPage1.Controls.Add(this.toolStrip4);
+            this.curClientTabPage1.Location = new System.Drawing.Point(4, 22);
+            this.curClientTabPage1.Name = "curClientTabPage1";
+            this.curClientTabPage1.Size = new System.Drawing.Size(792, 424);
+            this.curClientTabPage1.TabIndex = 3;
+            this.curClientTabPage1.Text = "Current client";
+            this.curClientTabPage1.UseVisualStyleBackColor = true;
+            // 
+            // toolStrip4
+            // 
+            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel4,
+            this.curCliCombo1,
+            this.reloadCurClieBtn1,
+            this.curCliConnectBtn1,
+            this.toolStripSeparator2,
+            this.statusLbl1,
+            this.toolStripSeparator3,
+            this.toolStripLabel3,
+            this.toolStripSpringTextBox2,
+            this.connectCustomBtn1});
+            this.toolStrip4.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip4.Name = "toolStrip4";
+            this.toolStrip4.Size = new System.Drawing.Size(792, 25);
+            this.toolStrip4.TabIndex = 0;
+            this.toolStrip4.Text = "toolStrip4";
+            // 
+            // toolStripLabel4
+            // 
+            this.toolStripLabel4.Name = "toolStripLabel4";
+            this.toolStripLabel4.Size = new System.Drawing.Size(46, 22);
+            this.toolStripLabel4.Text = "Clients:";
+            // 
+            // curCliCombo1
+            // 
+            this.curCliCombo1.Name = "curCliCombo1";
+            this.curCliCombo1.Size = new System.Drawing.Size(121, 25);
+            // 
+            // reloadCurClieBtn1
+            // 
+            this.reloadCurClieBtn1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.reloadCurClieBtn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.reloadCurClieBtn1.Image = ((System.Drawing.Image)(resources.GetObject("reloadCurClieBtn1.Image")));
+            this.reloadCurClieBtn1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.reloadCurClieBtn1.Name = "reloadCurClieBtn1";
+            this.reloadCurClieBtn1.Size = new System.Drawing.Size(47, 22);
+            this.reloadCurClieBtn1.Text = "Reload";
+            // 
+            // curCliConnectBtn1
+            // 
+            this.curCliConnectBtn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.curCliConnectBtn1.Enabled = false;
+            this.curCliConnectBtn1.Image = ((System.Drawing.Image)(resources.GetObject("curCliConnectBtn1.Image")));
+            this.curCliConnectBtn1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.curCliConnectBtn1.Name = "curCliConnectBtn1";
+            this.curCliConnectBtn1.Size = new System.Drawing.Size(56, 22);
+            this.curCliConnectBtn1.Text = "Connect";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // statusLbl1
+            // 
+            this.statusLbl1.Name = "statusLbl1";
+            this.statusLbl1.Size = new System.Drawing.Size(60, 22);
+            this.statusLbl1.Text = "Status:n/a";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(115, 22);
+            this.toolStripLabel3.Text = "Custom connection:";
+            // 
+            // toolStripSpringTextBox2
+            // 
+            this.toolStripSpringTextBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripSpringTextBox2.Name = "toolStripSpringTextBox2";
+            this.toolStripSpringTextBox2.Size = new System.Drawing.Size(234, 25);
+            // 
+            // connectCustomBtn1
+            // 
+            this.connectCustomBtn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.connectCustomBtn1.Enabled = false;
+            this.connectCustomBtn1.Image = ((System.Drawing.Image)(resources.GetObject("connectCustomBtn1.Image")));
+            this.connectCustomBtn1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.connectCustomBtn1.Name = "connectCustomBtn1";
+            this.connectCustomBtn1.Size = new System.Drawing.Size(56, 22);
+            this.connectCustomBtn1.Text = "Connect";
             // 
             // window
             // 
@@ -562,6 +690,10 @@
             this.groupBox2.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.curClientTabPage1.ResumeLayout(false);
+            this.curClientTabPage1.PerformLayout();
+            this.toolStrip4.ResumeLayout(false);
+            this.toolStrip4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -607,9 +739,22 @@
         private System.Windows.Forms.TabPage rawTabPage1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private util.ToolStripSpringTextBox toolStripSpringTextBox1;
+        private util.ConsoleBox comConsoleBox1;
+        private System.Windows.Forms.DomainUpDown clientSelectRawDomain1;
+        private System.Windows.Forms.TabPage curClientTabPage1;
+        private System.Windows.Forms.ToolStrip toolStrip4;
+        private System.Windows.Forms.ToolStripComboBox curCliCombo1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripLabel statusLbl1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private util.ToolStripSpringTextBox toolStripSpringTextBox2;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel4;
+        private System.Windows.Forms.ToolStripButton curCliConnectBtn1;
+        private System.Windows.Forms.ToolStripButton connectCustomBtn1;
+        private System.Windows.Forms.ToolStripButton reloadCurClieBtn1;
     }
 }
 

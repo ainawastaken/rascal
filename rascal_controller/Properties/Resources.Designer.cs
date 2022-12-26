@@ -63,15 +63,12 @@ namespace rascal_controller.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&apos;1.0&apos;?&gt;
         ///&lt;Root&gt;
-        ///	&lt;remoteURl&gt;https://ee0rk.pythonanywhere.com/&lt;/remoteURl&gt;
+        ///	&lt;remoteURl&gt;http://ee0rk.pythonanywhere.com/&lt;/remoteURl&gt;
         ///	&lt;administratorUrl&gt;admin/&lt;/administratorUrl&gt;
         ///	&lt;clientUrl&gt;client/&lt;/clientUrl&gt;
         ///	&lt;disconnectUrl&gt;disconnect&lt;/disconnectUrl&gt;
-        ///	&lt;forceHttps&gt;true&lt;/forceHttps&gt;
-        ///	&lt;auth&gt;true&lt;/auth&gt;
-        ///	&lt;b64&gt;true&lt;/b64&gt;
-        ///	&lt;username&gt;YWRtaW4=&lt;/username&gt;
-        ///	&lt;password&gt;cGFzc3dvcmQ=&lt;/password&gt;
+        ///	&lt;clientPort&gt;5000&lt;/clientPort&gt;
+        ///	&lt;serverPort&gt;5010&lt;/serverPort&gt;
         ///&lt;/Root&gt;
         ///
         ///.
