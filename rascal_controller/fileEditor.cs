@@ -15,5 +15,10 @@ namespace rascal_controller
         {
             InitializeComponent();
         }
+
+        private void fileEditor_Load(object sender, EventArgs e)
+        {
+            //syntaxEditor1.Document.Language =
+        }
     }
 }

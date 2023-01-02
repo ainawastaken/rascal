@@ -18,6 +18,8 @@ using System.Drawing.Imaging;
 using System.Threading;
 using rascal_controller.util.connection;
 using rascal_controller.util;
+using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 
 namespace rascal_controller
 {
@@ -28,6 +30,10 @@ namespace rascal_controller
 
         Root config;
         string configPath;
+
+        string[] currentHive;
+
+        volatile int lastSelectedIndexMainTabControl;
 
         string usr="";
         string pass="";
@@ -55,7 +61,7 @@ namespace rascal_controller
             communicationsText_rtxt1.AppendText("Loading config: " + configPath_txt1.Text + "\n");
             configPath =
                 Directory.GetParent(Application.ExecutablePath) + @"\" + configPath_txt1.Text;
-
+            openFileDialog1.Filter = "Registry files (*.reg)|*.reg|All files (*.*)|*.*";
             try
             {
                 config = new configTemplate.Root();
@@ -134,6 +140,10 @@ namespace rascal_controller
                     monitorAspectRatioList1.DropDownItems.Add($"[{kvp.Key}] {size.Width}X{size.Height}");
                 }
             }
+
+            Process myProcess = Process.GetCurrentProcess();
+            //myProcess.PriorityBoostEnabled = true;
+            myProcess.PriorityClass = ProcessPriorityClass.RealTime;
 
             captureThread = new Thread(captureSingle);
             captureThread.Start();
@@ -285,30 +295,34 @@ namespace rascal_controller
         {
             while (true)
             {
-                if (!this.Visible)
+                if(lastSelectedIndexMainTabControl == 1)
                 {
-                    captureThread.Abort();
+                    if (!this.Visible)
+                    {
+                        captureThread.Abort();
+                    }
+
+                    Stopwatch sw = new Stopwatch();
+                    sw.Start();
+                    bmp = new Bitmap(Screen.PrimaryScreen.Bounds.Width,
+                                                               Screen.PrimaryScreen.Bounds.Height,
+                                                               PixelFormat.Format32bppArgb);
+                    Graphics screenshot = Graphics.FromImage(bmp);
+                    screenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                                                Screen.PrimaryScreen.Bounds.Y,
+                                                0,
+                                                0,
+                                                Screen.PrimaryScreen.Bounds.Size,
+                                                CopyPixelOperation.SourceCopy);
+
+                    clientMonitor1.Image = bmp;
+                    GC.Collect();
+                    Thread.Sleep(refreshRate);
+                    lastFrameTime = sw.ElapsedMilliseconds;
+                    clientFPS = (float)Math.Round((float)(1000f / lastFrameTime));
                 }
-
-                Stopwatch sw = new Stopwatch();
-                sw.Start();
-                bmp = new Bitmap(Screen.PrimaryScreen.Bounds.Width,
-                                                           Screen.PrimaryScreen.Bounds.Height,
-                                                           PixelFormat.Format32bppArgb);
-                Graphics screenshot = Graphics.FromImage(bmp);
-                screenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                                            Screen.PrimaryScreen.Bounds.Y,
-                                            0,
-                                            0,
-                                            Screen.PrimaryScreen.Bounds.Size,
-                                            CopyPixelOperation.SourceCopy);
-
-                clientMonitor1.Image = bmp;
-                GC.Collect();
-                Thread.Sleep(refreshRate);
-                lastFrameTime = sw.ElapsedMilliseconds;
-                clientFPS = (float)Math.Round((float)(1000f / lastFrameTime));
             }
+                
         }
 
         #endregion
@@ -318,5 +332,79 @@ namespace rascal_controller
             comConsoleBox1.print(Encoding.ASCII.GetString(data),"RECV");
         }
         #endregion
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lastSelectedIndexMainTabControl = mainTabControl.SelectedIndex;
+        }
+
+        [DllImport("kernel32.dll")]
+        static extern void OutputDebugString(string lpOutputString);
+
+        private void PopulateTreeView(TreeView treeView, string[] paths)
+        {
+            treeView.BeginUpdate();
+            try
+            {
+                TreeNode lastNode = null;
+                string subPathAgg;
+                var nodeDict = new Dictionary<string, TreeNode>();
+                for (int x = 0; x < paths.Count(); x++)
+                {
+                    var tmpstr = paths[x].Split('\\');
+                    var sb = new StringBuilder();
+                    for (int y = 0; y < tmpstr.Count(); y++)
+                    {
+                        sb.Append(tmpstr[y]);
+                        sb.Append(@"\");
+                        subPathAgg = sb.ToString();
+                        if (!nodeDict.TryGetValue(subPathAgg, out var node))
+                        {
+                            node = lastNode == null ? treeView.Nodes.Add(subPathAgg, tmpstr[y]) : lastNode.Nodes.Add(subPathAgg, tmpstr[y]);
+                            nodeDict[subPathAgg] = node;
+                        }
+                        lastNode = node;
+                    }
+                }
+            }
+            finally
+            {
+                treeView.EndUpdate();
+            }
+        }
+
+        private void regView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            var target = $"[{e.Node.FullPath}]";
+            var result = Array.IndexOf(currentHive, target);
+            Console.WriteLine(result);
+        }
+
+        private void loadHiveBtn1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Stopwatch stopw = new Stopwatch();
+                stopw.Start();
+                string[] lines = File.ReadAllLines(openFileDialog1.FileName);
+                int len = 0;
+                string[] paths = new string[lines.Count()];
+                Parallel.For(0, lines.Count(), (i, state) =>
+                {
+                    Match match = Regex.Match(lines[i], @"\[.+?\]");
+                    if (match.Success)
+                    {
+                        paths[len] = match.Value.Substring(1, match.Value.Length - 2);
+                        len++;
+                    }
+                });
+                paths = paths.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+                currentHive = lines;
+                PopulateTreeView(regView1, paths);
+                GC.Collect();
+                stopw.Stop();
+                MessageBox.Show(stopw.ElapsedMilliseconds.ToString());
+            }
+        }
     }
 }

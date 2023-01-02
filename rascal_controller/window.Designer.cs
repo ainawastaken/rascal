@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(window));
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Variables", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Info", System.Windows.Forms.HorizontalAlignment.Left);
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.databaseTabPage1 = new System.Windows.Forms.TabPage();
             this.communicationsGroupBox1 = new System.Windows.Forms.GroupBox();
@@ -84,7 +86,17 @@
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSpringTextBox2 = new rascal_controller.util.ToolStripSpringTextBox();
             this.connectCustomBtn1 = new System.Windows.Forms.ToolStripButton();
+            this.regTabPage1 = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.regView1 = new System.Windows.Forms.TreeView();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
+            this.loadHiveBtn1 = new System.Windows.Forms.ToolStripButton();
+            this.hiveListView1 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mainTabControl.SuspendLayout();
             this.databaseTabPage1.SuspendLayout();
             this.communicationsGroupBox1.SuspendLayout();
@@ -104,6 +116,9 @@
             this.toolStrip2.SuspendLayout();
             this.curClientTabPage1.SuspendLayout();
             this.toolStrip4.SuspendLayout();
+            this.regTabPage1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.toolStrip5.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabControl
@@ -112,6 +127,7 @@
             this.mainTabControl.Controls.Add(this.controlTabPage1);
             this.mainTabControl.Controls.Add(this.rawTabPage1);
             this.mainTabControl.Controls.Add(this.curClientTabPage1);
+            this.mainTabControl.Controls.Add(this.regTabPage1);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTabControl.Location = new System.Drawing.Point(0, 0);
             this.mainTabControl.Name = "mainTabControl";
@@ -461,7 +477,7 @@
             // monitorAspectRatioList1
             // 
             this.monitorAspectRatioList1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.monitorAspectRatioList1.Image = global::rascal_controller.Properties.Resources.res;
+            this.monitorAspectRatioList1.Image = ((System.Drawing.Image)(resources.GetObject("monitorAspectRatioList1.Image")));
             this.monitorAspectRatioList1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.monitorAspectRatioList1.Name = "monitorAspectRatioList1";
             this.monitorAspectRatioList1.Size = new System.Drawing.Size(29, 22);
@@ -652,12 +668,106 @@
             this.connectCustomBtn1.Size = new System.Drawing.Size(56, 22);
             this.connectCustomBtn1.Text = "Connect";
             // 
+            // regTabPage1
+            // 
+            this.regTabPage1.Controls.Add(this.panel1);
+            this.regTabPage1.Controls.Add(this.regView1);
+            this.regTabPage1.Location = new System.Drawing.Point(4, 22);
+            this.regTabPage1.Name = "regTabPage1";
+            this.regTabPage1.Size = new System.Drawing.Size(792, 424);
+            this.regTabPage1.TabIndex = 4;
+            this.regTabPage1.Text = "Registry";
+            this.regTabPage1.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.hiveListView1);
+            this.panel1.Controls.Add(this.toolStrip5);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(267, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(525, 424);
+            this.panel1.TabIndex = 1;
+            // 
+            // regView1
+            // 
+            this.regView1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.regView1.Location = new System.Drawing.Point(0, 0);
+            this.regView1.Name = "regView1";
+            this.regView1.Size = new System.Drawing.Size(267, 424);
+            this.regView1.TabIndex = 0;
+            this.regView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.regView1_AfterSelect);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.DefaultExt = "reg";
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.RestoreDirectory = true;
+            // 
+            // toolStrip5
+            // 
+            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadHiveBtn1});
+            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip5.Name = "toolStrip5";
+            this.toolStrip5.Size = new System.Drawing.Size(525, 25);
+            this.toolStrip5.TabIndex = 1;
+            this.toolStrip5.Text = "toolStrip5";
+            // 
+            // loadHiveBtn1
+            // 
+            this.loadHiveBtn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.loadHiveBtn1.Image = ((System.Drawing.Image)(resources.GetObject("loadHiveBtn1.Image")));
+            this.loadHiveBtn1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.loadHiveBtn1.Name = "loadHiveBtn1";
+            this.loadHiveBtn1.Size = new System.Drawing.Size(62, 22);
+            this.loadHiveBtn1.Text = "Load hive";
+            this.loadHiveBtn1.Click += new System.EventHandler(this.loadHiveBtn1_Click);
+            // 
+            // hiveListView1
+            // 
+            this.hiveListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+            this.hiveListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            listViewGroup1.Header = "Variables";
+            listViewGroup1.Name = "listViewGroup2";
+            listViewGroup2.Header = "Info";
+            listViewGroup2.Name = "listViewGroup1";
+            this.hiveListView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2});
+            this.hiveListView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.hiveListView1.HideSelection = false;
+            this.hiveListView1.Location = new System.Drawing.Point(0, 25);
+            this.hiveListView1.Name = "hiveListView1";
+            this.hiveListView1.Size = new System.Drawing.Size(525, 399);
+            this.hiveListView1.TabIndex = 2;
+            this.hiveListView1.UseCompatibleStateImageBehavior = false;
+            this.hiveListView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Variable";
+            this.columnHeader1.Width = 148;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Value";
+            this.columnHeader2.Width = 207;
+            // 
             // window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainTabControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "window";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.window_Load);
@@ -694,6 +804,11 @@
             this.curClientTabPage1.PerformLayout();
             this.toolStrip4.ResumeLayout(false);
             this.toolStrip4.PerformLayout();
+            this.regTabPage1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.toolStrip5.ResumeLayout(false);
+            this.toolStrip5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -731,7 +846,6 @@
         private System.Windows.Forms.RichTextBox pingLog_rtxt1;
         private System.Windows.Forms.ToolStripButton editConfigBtn1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.PictureBox clientMonitor1;
         private System.Windows.Forms.ToolStrip monitorToolBar1;
         private System.Windows.Forms.ToolStripDropDownButton monitorAspectRatioList1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
@@ -755,6 +869,17 @@
         private System.Windows.Forms.ToolStripButton curCliConnectBtn1;
         private System.Windows.Forms.ToolStripButton connectCustomBtn1;
         private System.Windows.Forms.ToolStripButton reloadCurClieBtn1;
+        private System.Windows.Forms.TabPage regTabPage1;
+        public System.Windows.Forms.PictureBox clientMonitor1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TreeView regView1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStrip toolStrip5;
+        private System.Windows.Forms.ToolStripButton loadHiveBtn1;
+        private System.Windows.Forms.ListView hiveListView1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
 
