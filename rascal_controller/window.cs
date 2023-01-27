@@ -20,6 +20,9 @@ using rascal_controller.util.connection;
 using rascal_controller.util;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using System.Reflection;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Linq.Expressions;
 
 namespace rascal_controller
 {
@@ -32,6 +35,7 @@ namespace rascal_controller
         string configPath;
 
         string[] currentHive;
+        TreeNodeCollection currentNodes;
 
         volatile int lastSelectedIndexMainTabControl;
 
@@ -341,9 +345,9 @@ namespace rascal_controller
         [DllImport("kernel32.dll")]
         static extern void OutputDebugString(string lpOutputString);
 
-        private void PopulateTreeView(TreeView treeView, string[] paths)
+        private TreeNodeCollection PopulateTreeView(string[] paths)
         {
-            treeView.BeginUpdate();
+            TreeNode nodes = new TreeNode();
             try
             {
                 TreeNode lastNode = null;
@@ -360,17 +364,14 @@ namespace rascal_controller
                         subPathAgg = sb.ToString();
                         if (!nodeDict.TryGetValue(subPathAgg, out var node))
                         {
-                            node = lastNode == null ? treeView.Nodes.Add(subPathAgg, tmpstr[y]) : lastNode.Nodes.Add(subPathAgg, tmpstr[y]);
+                            node = lastNode == null ? nodes.Nodes.Add(subPathAgg, tmpstr[y]) : lastNode.Nodes.Add(subPathAgg, tmpstr[y]);
                             nodeDict[subPathAgg] = node;
                         }
                         lastNode = node;
                     }
                 }
-            }
-            finally
-            {
-                treeView.EndUpdate();
-            }
+            }finally{}
+            return nodes.Nodes;
         }
 
         private void regView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -382,6 +383,10 @@ namespace rascal_controller
 
         private void loadHiveBtn1_Click(object sender, EventArgs e)
         {
+            string localPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            localPath = $@"{localPath}\hives\local.reg";
+            openFileDialog1.InitialDirectory = localPath;
+
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Stopwatch stopw = new Stopwatch();
@@ -400,11 +405,45 @@ namespace rascal_controller
                 });
                 paths = paths.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
                 currentHive = lines;
-                PopulateTreeView(regView1, paths);
+                currentNodes = PopulateTreeView(paths);
+                try { regView1.Nodes.Insert(0, currentNodes[0]); }catch{ }
                 GC.Collect();
                 stopw.Stop();
                 MessageBox.Show(stopw.ElapsedMilliseconds.ToString());
             }
+        }
+
+        void exportRegistry(string strKey, string filepath)
+        {
+            try
+            {
+                File.Create(filepath).Close();
+                using (Process proc = new Process())
+                {
+                    proc.StartInfo.FileName = "reg.exe";
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.RedirectStandardOutput = true;
+                    proc.StartInfo.RedirectStandardError = true;
+                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.Arguments = "save " + strKey + " " + filepath;
+                    proc.Start();
+                    string stdout = proc.StandardOutput.ReadToEnd();
+                    string stderr = proc.StandardError.ReadToEnd();
+                    proc.WaitForExit();
+                    proc.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, filepath);
+            }
+        }
+
+        private void getLocalHiveBtn1_Click(object sender, EventArgs e)
+        {
+            string localPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            localPath = $@"{localPath}\hives\local.reg";
+            exportRegistry("HKEY_LOCAL_MACHINE", localPath);
         }
     }
 }

@@ -69,10 +69,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.rawTabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comConsoleBox1 = new rascal_controller.util.ConsoleBox();
             this.clientSelectRawDomain1 = new System.Windows.Forms.DomainUpDown();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSpringTextBox1 = new rascal_controller.util.ToolStripSpringTextBox();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.curClientTabPage1 = new System.Windows.Forms.TabPage();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
@@ -84,19 +82,25 @@
             this.statusLbl1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSpringTextBox2 = new rascal_controller.util.ToolStripSpringTextBox();
             this.connectCustomBtn1 = new System.Windows.Forms.ToolStripButton();
             this.regTabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.hiveListView1 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
+            this.loadHiveBtn1 = new System.Windows.Forms.ToolStripButton();
+            this.getLocalHiveBtn1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.regView1 = new System.Windows.Forms.TreeView();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
-            this.loadHiveBtn1 = new System.Windows.Forms.ToolStripButton();
-            this.hiveListView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.comConsoleBox1 = new rascal_controller.util.ConsoleBox();
+            this.toolStripSpringTextBox1 = new rascal_controller.util.ToolStripSpringTextBox();
+            this.toolStripSpringTextBox2 = new rascal_controller.util.ToolStripSpringTextBox();
             this.mainTabControl.SuspendLayout();
             this.databaseTabPage1.SuspendLayout();
             this.communicationsGroupBox1.SuspendLayout();
@@ -520,17 +524,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Raw communications";
             // 
-            // comConsoleBox1
-            // 
-            this.comConsoleBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comConsoleBox1.Location = new System.Drawing.Point(3, 36);
-            this.comConsoleBox1.Name = "comConsoleBox1";
-            this.comConsoleBox1.ReadOnly = true;
-            this.comConsoleBox1.Size = new System.Drawing.Size(264, 360);
-            this.comConsoleBox1.TabIndex = 3;
-            this.comConsoleBox1.Text = "";
-            this.comConsoleBox1.WordWrap = false;
-            // 
             // clientSelectRawDomain1
             // 
             this.clientSelectRawDomain1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -552,12 +545,6 @@
             this.toolStrip2.Size = new System.Drawing.Size(264, 25);
             this.toolStrip2.TabIndex = 0;
             this.toolStrip2.Text = "toolStrip2";
-            // 
-            // toolStripSpringTextBox1
-            // 
-            this.toolStripSpringTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripSpringTextBox1.Name = "toolStripSpringTextBox1";
-            this.toolStripSpringTextBox1.Size = new System.Drawing.Size(207, 25);
             // 
             // toolStripButton1
             // 
@@ -652,12 +639,6 @@
             this.toolStripLabel3.Size = new System.Drawing.Size(115, 22);
             this.toolStripLabel3.Text = "Custom connection:";
             // 
-            // toolStripSpringTextBox2
-            // 
-            this.toolStripSpringTextBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripSpringTextBox2.Name = "toolStripSpringTextBox2";
-            this.toolStripSpringTextBox2.Size = new System.Drawing.Size(234, 25);
-            // 
             // connectCustomBtn1
             // 
             this.connectCustomBtn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -688,46 +669,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(525, 424);
             this.panel1.TabIndex = 1;
-            // 
-            // regView1
-            // 
-            this.regView1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.regView1.Location = new System.Drawing.Point(0, 0);
-            this.regView1.Name = "regView1";
-            this.regView1.Size = new System.Drawing.Size(267, 424);
-            this.regView1.TabIndex = 0;
-            this.regView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.regView1_AfterSelect);
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.DefaultExt = "reg";
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.RestoreDirectory = true;
-            // 
-            // toolStrip5
-            // 
-            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadHiveBtn1});
-            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(525, 25);
-            this.toolStrip5.TabIndex = 1;
-            this.toolStrip5.Text = "toolStrip5";
-            // 
-            // loadHiveBtn1
-            // 
-            this.loadHiveBtn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.loadHiveBtn1.Image = ((System.Drawing.Image)(resources.GetObject("loadHiveBtn1.Image")));
-            this.loadHiveBtn1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.loadHiveBtn1.Name = "loadHiveBtn1";
-            this.loadHiveBtn1.Size = new System.Drawing.Size(62, 22);
-            this.loadHiveBtn1.Text = "Load hive";
-            this.loadHiveBtn1.Click += new System.EventHandler(this.loadHiveBtn1_Click);
             // 
             // hiveListView1
             // 
@@ -760,6 +701,96 @@
             // 
             this.columnHeader2.Text = "Value";
             this.columnHeader2.Width = 207;
+            // 
+            // toolStrip5
+            // 
+            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadHiveBtn1,
+            this.getLocalHiveBtn1,
+            this.toolStripSeparator4,
+            this.toolStripProgressBar1,
+            this.toolStripSeparator5});
+            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip5.Name = "toolStrip5";
+            this.toolStrip5.Size = new System.Drawing.Size(525, 25);
+            this.toolStrip5.TabIndex = 1;
+            this.toolStrip5.Text = "toolStrip5";
+            // 
+            // loadHiveBtn1
+            // 
+            this.loadHiveBtn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.loadHiveBtn1.Image = ((System.Drawing.Image)(resources.GetObject("loadHiveBtn1.Image")));
+            this.loadHiveBtn1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.loadHiveBtn1.Name = "loadHiveBtn1";
+            this.loadHiveBtn1.Size = new System.Drawing.Size(62, 22);
+            this.loadHiveBtn1.Text = "Load hive";
+            this.loadHiveBtn1.Click += new System.EventHandler(this.loadHiveBtn1_Click);
+            // 
+            // getLocalHiveBtn1
+            // 
+            this.getLocalHiveBtn1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.getLocalHiveBtn1.Image = ((System.Drawing.Image)(resources.GetObject("getLocalHiveBtn1.Image")));
+            this.getLocalHiveBtn1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.getLocalHiveBtn1.Name = "getLocalHiveBtn1";
+            this.getLocalHiveBtn1.Size = new System.Drawing.Size(139, 22);
+            this.getLocalHiveBtn1.Text = "Get local hive for testing";
+            this.getLocalHiveBtn1.Click += new System.EventHandler(this.getLocalHiveBtn1_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 22);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // regView1
+            // 
+            this.regView1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.regView1.Location = new System.Drawing.Point(0, 0);
+            this.regView1.Name = "regView1";
+            this.regView1.Size = new System.Drawing.Size(267, 424);
+            this.regView1.TabIndex = 0;
+            this.regView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.regView1_AfterSelect);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.DefaultExt = "reg";
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.RestoreDirectory = true;
+            // 
+            // comConsoleBox1
+            // 
+            this.comConsoleBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comConsoleBox1.Location = new System.Drawing.Point(3, 36);
+            this.comConsoleBox1.Name = "comConsoleBox1";
+            this.comConsoleBox1.ReadOnly = true;
+            this.comConsoleBox1.Size = new System.Drawing.Size(264, 360);
+            this.comConsoleBox1.TabIndex = 3;
+            this.comConsoleBox1.Text = "";
+            this.comConsoleBox1.WordWrap = false;
+            // 
+            // toolStripSpringTextBox1
+            // 
+            this.toolStripSpringTextBox1.Name = "toolStripSpringTextBox1";
+            this.toolStripSpringTextBox1.Size = new System.Drawing.Size(207, 25);
+            // 
+            // toolStripSpringTextBox2
+            // 
+            this.toolStripSpringTextBox2.Name = "toolStripSpringTextBox2";
+            this.toolStripSpringTextBox2.Size = new System.Drawing.Size(234, 25);
             // 
             // window
             // 
@@ -880,6 +911,10 @@
         private System.Windows.Forms.ListView hiveListView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ToolStripButton getLocalHiveBtn1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 
