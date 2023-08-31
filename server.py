@@ -1,8 +1,5 @@
-﻿from time import sleep
-from flask import Flask;
+﻿from flask import Flask;
 import os;
-import subprocess;
-import platform;
 
 #next list: ¶
 #next value: »
@@ -24,40 +21,6 @@ def check_address(ip_address):
     if ip_address.count('.') != 3 or not all(ip_byte.isdigit() and int(ip_byte) < 255 for ip_byte in ip_address.split('.')):
         return False
     else: return True
-
-def _ping():
-    while True:
-        global admins;
-        global clients;
-        t_admins=[];
-        t_clients=[];
-        d_admins=[];
-        d_clients=[];
-        i_admins=[];
-        i_clients=[];
-        for line in admins:
-            if(check_address(line)):
-                param = '-n' if platform.system().lower()=='windows' else '-c'
-                command = ['ping', param, '1', line]
-                response =  subprocess.call(command) == 0
-                if (response):
-                    t_admins.append(line);
-                else:
-                    d_admins.append(line);
-            else:
-                i_admins.append(line);
-        for line in clients:
-            if(check_address(line)):
-                param = '-n' if platform.system().lower()=='windows' else '-c'
-                command = ['ping', param, '1', line]
-                response =  subprocess.call(command) == 0
-                if (response):
-                    t_clients.append(line);
-                else:
-                    d_clients.append(line);
-            else:
-                i_clients.append(line);
-        sleep(10);
 
 #####################################HOME
 @app.route('/')

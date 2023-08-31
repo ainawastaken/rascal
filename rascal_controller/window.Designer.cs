@@ -101,6 +101,7 @@
             this.comConsoleBox1 = new rascal_controller.util.ConsoleBox();
             this.toolStripSpringTextBox1 = new rascal_controller.util.ToolStripSpringTextBox();
             this.toolStripSpringTextBox2 = new rascal_controller.util.ToolStripSpringTextBox();
+            this.loginBtn = new System.Windows.Forms.ToolStripButton();
             this.mainTabControl.SuspendLayout();
             this.databaseTabPage1.SuspendLayout();
             this.communicationsGroupBox1.SuspendLayout();
@@ -253,7 +254,8 @@
             // 
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.serverPing_btn1,
-            this.editConfigBtn1});
+            this.editConfigBtn1,
+            this.loginBtn});
             this.toolStrip3.Location = new System.Drawing.Point(3, 16);
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Size = new System.Drawing.Size(194, 25);
@@ -277,8 +279,8 @@
             this.editConfigBtn1.Image = ((System.Drawing.Image)(resources.GetObject("editConfigBtn1.Image")));
             this.editConfigBtn1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.editConfigBtn1.Name = "editConfigBtn1";
-            this.editConfigBtn1.Size = new System.Drawing.Size(125, 22);
-            this.editConfigBtn1.Text = "Edit configuration file";
+            this.editConfigBtn1.Size = new System.Drawing.Size(87, 22);
+            this.editConfigBtn1.Text = "Edit config file";
             this.editConfigBtn1.Click += new System.EventHandler(this.editConfigBtn1_Click);
             // 
             // clientsGroupBox1
@@ -792,6 +794,15 @@
             this.toolStripSpringTextBox2.Name = "toolStripSpringTextBox2";
             this.toolStripSpringTextBox2.Size = new System.Drawing.Size(234, 25);
             // 
+            // loginBtn
+            // 
+            this.loginBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.loginBtn.Image = ((System.Drawing.Image)(resources.GetObject("loginBtn.Image")));
+            this.loginBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.loginBtn.Name = "loginBtn";
+            this.loginBtn.Size = new System.Drawing.Size(41, 22);
+            this.loginBtn.Text = "Login";
+            // 
             // window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -915,6 +926,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton loginBtn;
     }
 }
 

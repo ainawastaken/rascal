@@ -23,6 +23,8 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Linq.Expressions;
+using Microsoft.Win32;
+using System.Diagnostics.Metrics;
 
 namespace rascal_controller
 {
@@ -41,6 +43,9 @@ namespace rascal_controller
 
         string usr="";
         string pass="";
+
+        bool isLoggedIn = false;
+        string thisIP;
         #region LOAD
         public window()
         {
@@ -79,6 +84,7 @@ namespace rascal_controller
             }
             lf.loadingLbl1.Text = "Pinging server & getting users";
             lf.Update();
+            thisIP = new WebClient().DownloadString("http://icanhazip.com").Replace("\\r\\n", "").Replace("\\n", "").Trim();
             serverPing_btn1.PerformClick();
             string _result = "";
             communicationsText_rtxt1.AppendText("Getting response from: " + config.RemoteURl + "\n");
@@ -99,6 +105,11 @@ namespace rascal_controller
             clients = list[1].Split(helpers.newitem).ToList();
             clients.Remove("");
             admins.Remove("");
+            if (admins.Contains(thisIP))
+            {
+                isLoggedIn = true;
+                loginBtn.Text = "Logout";
+            }
             adminsListBox1.Items.Clear();
             foreach (string item in admins)
             {
@@ -121,6 +132,7 @@ namespace rascal_controller
                 {
                     it = "none";
                 }
+            
                 if (/*util.webRequest.isValidUrl(it) & */util.webRequest.PingHost(it).success)
                 {
                     clientPings[ind - 1] = true;
@@ -155,7 +167,7 @@ namespace rascal_controller
             udpServer.outputs.Add(onRecv);
 
             Thread servThread = new Thread(udpServer.serverThread);
-            servThread.Start();
+            //servThread.Start();
 
             lf.Hide();
             lf.Dispose();
@@ -276,7 +288,6 @@ namespace rascal_controller
             e.Graphics.DrawLine(Pens.Black, pointerPos1.X - 5f, pointerPos1.Y, pointerPos1.X + 5f, pointerPos1.Y);
             e.Graphics.DrawLine(Pens.Black, pointerPos1.X, pointerPos1.Y+5, pointerPos1.X, pointerPos1.Y - 5f);
         }
-
         private void clientMonitor1_MouseMove(object sender, MouseEventArgs e)
         {
             pointerPos1 = e.Location;
@@ -285,12 +296,10 @@ namespace rascal_controller
         {
 
         }
-
         private void clientMonitor1_MouseEnter(object sender, EventArgs e)
         {
             Cursor.Hide();
         }
-
         private void clientMonitor1_MouseLeave(object sender, EventArgs e)
         {
             Cursor.Show();
@@ -384,16 +393,56 @@ namespace rascal_controller
         private void loadHiveBtn1_Click(object sender, EventArgs e)
         {
             string localPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            localPath = $@"{localPath}\hives\local.reg";
+            localPath = $@"{localPath}\hives";
             openFileDialog1.InitialDirectory = localPath;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                timer1.Enabled = false;
                 Stopwatch stopw = new Stopwatch();
                 stopw.Start();
-                string[] lines = File.ReadAllLines(openFileDialog1.FileName);
+                //string[] lines = File.ReadAllLines(openFileDialog1.FileName);
                 int len = 0;
-                string[] paths = new string[lines.Count()];
+                //string[] paths = new string[lines.Count()];
+
+                TreeNode lastNode = null;
+                string subPathAgg;
+                var nodeDict = new Dictionary<string, TreeNode>();
+                long counter = 0;
+                string line;
+                long sz = new FileInfo(openFileDialog1.FileName).Length;
+
+                regView1.BeginUpdate();
+                System.IO.StreamReader file = new System.IO.StreamReader(openFileDialog1.FileName);
+                while ((line = file.ReadLine()) != null)
+                {
+                    Match match = Regex.Match(line, @"\[.+?\]");
+                    if (match.Success)
+                    {
+                        var tmpstr = line.Split('\\');
+                        var sb = new StringBuilder();
+                        for (int y = 0; y < tmpstr.Count(); y++)
+                        {
+                            sb.Append(tmpstr[y]);
+                            sb.Append(@"\");
+                            subPathAgg = sb.ToString();
+                            if (!nodeDict.TryGetValue(subPathAgg, out var node))
+                            {
+                                node = lastNode == null ? regView1.Nodes.Add(subPathAgg, tmpstr[y]) : lastNode.Nodes.Add(subPathAgg, tmpstr[y]);
+                                nodeDict[subPathAgg] = node;
+                            }
+                            lastNode = node;
+                        }
+                        Console.SetCursorPosition(0, 0);
+                        Console.Write($"{counter / 1024}KB/{sz / 1024}KB");
+                    }
+                    counter += line.Length * sizeof(Char);
+                }
+                file.Close();
+                file.Dispose();
+                regView1.EndUpdate();
+
+                /*
                 Parallel.For(0, lines.Count(), (i, state) =>
                 {
                     Match match = Regex.Match(lines[i], @"\[.+?\]");
@@ -405,9 +454,10 @@ namespace rascal_controller
                 });
                 paths = paths.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
                 currentHive = lines;
-                currentNodes = PopulateTreeView(paths);
-                try { regView1.Nodes.Insert(0, currentNodes[0]); }catch{ }
+                currentNodes = PopulateTreeView(paths);*/
+                //try { regView1.Nodes.Insert(0, currentNodes[0]); }catch{ }
                 GC.Collect();
+                timer1.Enabled = true;
                 stopw.Stop();
                 MessageBox.Show(stopw.ElapsedMilliseconds.ToString());
             }
@@ -417,21 +467,12 @@ namespace rascal_controller
         {
             try
             {
-                File.Create(filepath).Close();
-                using (Process proc = new Process())
-                {
-                    proc.StartInfo.FileName = "reg.exe";
-                    proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.RedirectStandardOutput = true;
-                    proc.StartInfo.RedirectStandardError = true;
-                    proc.StartInfo.CreateNoWindow = true;
-                    proc.StartInfo.Arguments = "save " + strKey + " " + filepath;
-                    proc.Start();
-                    string stdout = proc.StandardOutput.ReadToEnd();
-                    string stderr = proc.StandardError.ReadToEnd();
-                    proc.WaitForExit();
-                    proc.Dispose();
-                }
+                Process process = new Process();
+                process.StartInfo.FileName = "reg.exe";
+                process.StartInfo.Arguments = $"export {strKey} {filepath} /y";
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.Start();
+                process.WaitForExit();
             }
             catch (Exception ex)
             {
@@ -441,9 +482,12 @@ namespace rascal_controller
 
         private void getLocalHiveBtn1_Click(object sender, EventArgs e)
         {
+            timer1.Enabled = false;
             string localPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             localPath = $@"{localPath}\hives\local.reg";
+            Console.WriteLine(localPath);
             exportRegistry("HKEY_LOCAL_MACHINE", localPath);
+            timer1.Enabled = false;
         }
     }
 }

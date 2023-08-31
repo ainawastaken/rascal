@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <Root>
-	<remoteURl>http://ee0rk.pythonanywhere.com/</remoteURl>
+	<remoteURl>http://datastash-ee0rk.pythonanywhere.com</remoteURl>
 	<administratorUrl>admin/</administratorUrl>
 	<clientUrl>client/</clientUrl>
 	<disconnectUrl>disconnect</disconnectUrl>
