@@ -297,7 +297,7 @@
     <Content Include="rossiya1.ico" />
     <None Include="App1.config" />
     <None Include="hives\local.reg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\rossiya.jfif" />
     <None Include="Resources\rossiya-ZAqfH.bmp" />
